@@ -1,0 +1,12 @@
+# avoid to use "ssh-copy-id" to deploy ssh-key on each cluster node
+# this playbook will deploy ssh_public-key in all hosts at once
+
+- hosts: appservers
+  become: true
+  task:
+  - name: Deploy local user SSH Key
+    authorized_key:
+      user: ansible
+      state: present
+      manage_dir: true
+      key: "{{ lookup('file', '/home/ansible/. ssh/id_rsa.pub) }}
